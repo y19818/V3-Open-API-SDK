@@ -9,6 +9,8 @@ import okex.system_api as system
 import okex.information_api as information
 import json
 import datetime
+import csv
+
 
 def get_timestamp():
     now = datetime.datetime.now()
@@ -19,9 +21,9 @@ time = get_timestamp()
 
 if __name__ == '__main__':
 
-    api_key = ""
-    secret_key = ""
-    passphrase = ""
+    api_key = "7caa7a9e-3cd4-43b3-a648-a55664dc0dd8"
+    secret_key = "F2254FB3607A222DBCA887FD6BAA8FB0"
+    passphrase = "2b123456"
 
     # param use_server_time's value is False if is True will use server timestamp
     # param test's value is False if is True will use simulative trading
@@ -110,8 +112,16 @@ if __name__ == '__main__':
     # 公共-获取K线数据
     # result = spotAPI.get_kline(instrument_id='', start='', end='', granularity='')
     # 公共-获取历史K线数据
-    # result = spotAPI.get_history_kline(instrument_id='', start='', end='', granularity='')
+    result = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-26T15:30:00.000Z', end='2021-04-30T15:30:00.000Z', granularity='86400')
+    print(result)
+    header = ['开始时间', '开盘价格', '最高价格', '最低价格', '收盘价格', '交易量']
 
+    data = result
+
+    with open('result.csv', 'w', encoding='utf-8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(data)
 # level api test
 # 币币杠杆API
     levelAPI = lever.LeverAPI(api_key, secret_key, passphrase, False)
