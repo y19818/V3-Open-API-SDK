@@ -112,13 +112,24 @@ if __name__ == '__main__':
     # 公共-获取K线数据
     # result = spotAPI.get_kline(instrument_id='', start='', end='', granularity='')
     # 公共-获取历史K线数据
-    result = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-26T15:30:00.000Z', end='2021-04-30T15:30:00.000Z', granularity='86400')
+    result1 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-31T15:30:00.000Z', end='2021-05-25T15:30:00.000Z', granularity='1800')
+    result2 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-25T15:30:00.000Z', end='2021-05-20T15:30:00.000Z', granularity='1800')
+    result3 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-20T15:30:00.000Z', end='2021-05-15T15:30:00.000Z', granularity='1800')
+    result4 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-15T15:30:00.000Z', end='2021-05-10T15:30:00.000Z', granularity='1800')
+    result5 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-10T15:30:00.000Z', end='2021-05-05T15:30:00.000Z', granularity='1800')
+    result6 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-05T15:30:00.000Z', end='2021-05-01T15:30:00.000Z', granularity='1800')
+    result = result1+result2+result3+result4+result5+result6
+    data = []
+    for i in result:
+        if "15:30" in i[0]:
+            data.append(i)
+
+
     print(result)
     header = ['开始时间', '开盘价格', '最高价格', '最低价格', '收盘价格', '交易量']
 
-    data = result
 
-    with open('result.csv', 'w', encoding='utf-8', newline='') as f:
+    with open('李星5月.csv', 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         writer.writerows(data)
