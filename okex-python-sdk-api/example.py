@@ -21,10 +21,15 @@ time = get_timestamp()
 
 if __name__ == '__main__':
 
-    api_key = "7caa7a9e-3cd4-43b3-a648-a55664dc0dd8"
-    secret_key = "F2254FB3607A222DBCA887FD6BAA8FB0"
-    passphrase = "2b123456"
+    #api_key = "7caa7a9e-3cd4-43b3-a648-a55664dc0dd8"
+    #secret_key = "F2254FB3607A222DBCA887FD6BAA8FB0"
+    passphrase = "123456"
 
+    api_key = "0bfb03f1-9434-4bdf-81d2-e908dd8e6558"
+    secret_key = "055009BDFA94CCA5BB7C7D91F08D973E"
+    IP = ""
+    备注名 = "lixing"
+    权限 = "只读"
     # param use_server_time's value is False if is True will use server timestamp
     # param test's value is False if is True will use simulative trading
 
@@ -112,21 +117,28 @@ if __name__ == '__main__':
     # 公共-获取K线数据
     # result = spotAPI.get_kline(instrument_id='', start='', end='', granularity='')
     # 公共-获取历史K线数据
-    result1 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-31T15:30:00.000Z', end='2021-05-25T15:30:00.000Z', granularity='1800')
-    result2 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-25T15:30:00.000Z', end='2021-05-20T15:30:00.000Z', granularity='1800')
-    result3 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-20T15:30:00.000Z', end='2021-05-15T15:30:00.000Z', granularity='1800')
-    result4 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-15T15:30:00.000Z', end='2021-05-10T15:30:00.000Z', granularity='1800')
-    result5 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-10T15:30:00.000Z', end='2021-05-05T15:30:00.000Z', granularity='1800')
-    result6 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-05-05T15:30:00.000Z', end='2021-05-01T15:30:00.000Z', granularity='1800')
-    result = result1+result2+result3+result4+result5+result6
+    def price_m(month):
+        if month % 2 == 1:
+            result1 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-0'+str(month)+'-31T15:30:00.000Z', end='2021-0'+str(month)+'-25T15:30:00.000Z', granularity='1800')
+        else:
+            result1 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-0'+str(month)+'-30T15:30:00.000Z', end='2021-0'+str(month)+'-25T15:30:00.000Z', granularity='1800')
+
+        result2 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-0'+str(month)+'-25T15:30:00.000Z', end='2021-0'+str(month)+'-20T15:30:00.000Z', granularity='1800')
+        result3 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-0'+str(month)+'-20T15:30:00.000Z', end='2021-0'+str(month)+'-15T15:30:00.000Z', granularity='1800')
+        result4 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-0'+str(month)+'-15T15:30:00.000Z', end='2021-0'+str(month)+'-10T15:30:00.000Z', granularity='1800')
+        result5 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-0'+str(month)+'-10T15:30:00.000Z', end='2021-0'+str(month)+'-05T15:30:00.000Z', granularity='1800')
+        result6 = spotAPI.get_history_kline(instrument_id='ETH-USDT', start='2021-0'+str(month)+'-05T15:30:00.000Z', end='2021-0'+str(month)+'-01T15:30:00.000Z', granularity='1800')
+        result = result1+result2+result3+result4+result5+result6
+        return result
+    form = price_m(5)+price_m(6)+price_m(7)+price_m(8)
     data = []
-    for i in result:
+    for i in form:
         if "15:30" in i[0]:
             data.append(i)
 
 
-    print(result)
-    header = ['开始时间', '开盘价格', '最高价格', '最低价格', '收盘价格', '交易量']
+    #print(result)
+    header = ['开始时间', '开盘价格', '最高价格', '最低价格', '收盘价格', '交易量/张', '交易量/币']
 
 
     with open('李星5月.csv', 'w', encoding='utf-8', newline='') as f:
@@ -445,4 +457,4 @@ if __name__ == '__main__':
     # result = system.get_system_status('')
 
 
-    print(time + json.dumps(result))
+    #print(time + json.dumps(result))
